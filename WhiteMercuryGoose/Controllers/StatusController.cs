@@ -6,7 +6,7 @@
 	{
 		// GET api/<StatusController>/5
 		[HttpGet("{id}")]
-		public ActionResult Get(int id)
+		public IActionResult Get(int id)
 		{
 			return Ok();
 		}
