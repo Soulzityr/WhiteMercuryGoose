@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WhiteMercuryGoose.Helpers;
 
 namespace WhiteMercuryGoose
 {
@@ -15,6 +16,7 @@ namespace WhiteMercuryGoose
 			builder.Logging.AddConsole();
 
 			// Add services to the container.
+			builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
 			// Authentication
 			builder.Services.AddAuthentication(options =>
@@ -38,6 +40,10 @@ namespace WhiteMercuryGoose
 			builder.Services.AddAuthorization();
 
 			builder.Services.AddControllers();
+
+			//Dependency Injection
+			builder.Services.AddScoped<JwtSettings, JwtSettings>();
+
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
