@@ -3,8 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WhiteMercuryGoose.Entities;
 using WhiteMercuryGoose.Helpers;
-using WhiteMercuryGoose.Models.Account;
 
 namespace WhiteMercuryGoose.Controllers
 {
@@ -18,39 +18,6 @@ namespace WhiteMercuryGoose.Controllers
 		public AccountController(JwtSettings jwtSettings)
 		{
 			_jwtSettings = jwtSettings;
-		}
-
-
-		// GET: api/<AccountController>
-		[HttpGet]
-		public IEnumerable<string> Get()
-		{
-			return new string[] { "value1", "value2" };
-		}
-
-		// GET api/<AccountController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
-
-		// POST api/<AccountController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
-
-		// PUT api/<AccountController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<AccountController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
 		}
 
 		[HttpPost("authenticate")]
@@ -78,8 +45,7 @@ namespace WhiteMercuryGoose.Controllers
 				var tokenHandler = new JwtSecurityTokenHandler();
 				var token = tokenHandler.CreateToken(tokenDescriptor);
 				var jwtToken = tokenHandler.WriteToken(token);
-				var stringToken = tokenHandler.WriteToken(token);
-				return Ok(stringToken);
+				return Ok(jwtToken);
 			}
 			return Unauthorized();
 		}
