@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using WhiteMercuryGoose.Entities;
 using WhiteMercuryGoose.Models.Account;
+using WhiteMercuryGoose.Services;
 
 namespace WhiteMercuryGoose.Controllers
 {
@@ -8,42 +10,21 @@ namespace WhiteMercuryGoose.Controllers
 	[AllowAnonymous]
 	public class AccountController : ControllerBase
 	{
-		// GET: api/<AccountController>
-		[HttpGet]
-		public IEnumerable<string> Get()
+		private IUserService _userService;
+
+		public AccountController(IUserService userService)
 		{
-			return new string[] { "value1", "value2" };
+			_userService = userService;
 		}
 
-		// GET api/<AccountController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		[HttpPost("authenticate")]
+		public IActionResult Authenticate(AuthenticateRequest model)
 		{
-			return "value";
-		}
+			var response = _userService.Authenticate(model);
 
-		// POST api/<AccountController>
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
+			if (response == null) return BadRequest(new { message = "Incorrect credentials" });
 
-		// PUT api/<AccountController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE api/<AccountController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
-
-		[HttpPost("createToken")]
-		public void CreateToken(User user)
-		{
-
+			return Ok(response);
 		}
 	}
 }
